@@ -1,0 +1,17 @@
+{
+    "name": "astrostudio/cakephp.base-acl",
+    "type": "cakephp-plugin",
+    "require": {
+        "composer/installers": "*",
+        "astrostudio/php.base": "3.1.*",
+        "astrostudio/cakephp.base": "3.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Base\\Acl\\": "src"
+        }
+    },
+    "extra": {
+        "installer-name": "cakephp.base-acl"
+    }
+}
