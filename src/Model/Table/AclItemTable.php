@@ -8,14 +8,14 @@ use Base\Time;
 use JsonSchema\Exception\ValidationException;
 use DateTimeInterface;
 
-class ItemTable extends Table {
+class AclItemTable extends Table {
 
     public function initialize(array $config){
         $this->table('acl_item');
         $this->primaryKey('id');
-        $this->belongsTo('Base/Acl.Aro');
-        $this->belongsTo('Base/Acl.Aco');
-        $this->belongsTo('Base/Acl.Alo');
+        $this->belongsTo('Base/Acl.AclAro');
+        $this->belongsTo('Base/Acl.AclAco');
+        $this->belongsTo('Base/Acl.AclAlo');
         $this->addBehavior('Timestamp');
     }
 

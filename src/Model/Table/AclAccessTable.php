@@ -8,7 +8,7 @@ use Cake\ORM\Query;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 
-class AccessTable extends Table {
+class AclAccessTable extends Table {
 
     static public function whereTime($alias,DateTimeInterface $time=null){
         $time=$time?$time:new DateTime();
@@ -28,9 +28,9 @@ class AccessTable extends Table {
     public function initialize(array $config){
         $this->table('acl_access');
         $this->primaryKey(false);
-        $this->belongsTo('Base/Acl.Aro');
-        $this->belongsTo('Base/Acl.Aco');
-        $this->belongsTo('Base/Acl.Alo');
+        $this->belongsTo('Base/Acl.AclAro');
+        $this->belongsTo('Base/Acl.AclAco');
+        $this->belongsTo('Base/Acl.AclAlo');
     }
 
     public function check($aroId,$acoId,$aloId,DateTimeInterface $time=null){
@@ -46,10 +46,10 @@ class AccessTable extends Table {
 
         if(is_string($aro) and mb_substr($aro,0,1)=='@'){
             $query=$query->join([
-                'table'=>$this->Aro->AroName->table(),
-                'alias'=>$this->Aro->AroName->alias(),
-                'conditions'=>[$this->Aro->AroName->alias().'.id='.$this->alias().'.acl_aro_id']
-            ])->where([$this->AclAro->AroName->alias().'.name'=>mb_substr($aro,1)]);
+                'table'=>$this->AclAro->AclAroName->table(),
+                'alias'=>$this->AclAro->AclAroName->alias(),
+                'conditions'=>[$this->AclAro->AclAroName->alias().'.id='.$this->alias().'.acl_aro_id']
+            ])->where([$this->AclAclAro->AclAroName->alias().'.name'=>mb_substr($aro,1)]);
         }
         else {
             $query=$query->where([$this->alias().'.acl_aro_id'=>$aro]);
@@ -57,10 +57,10 @@ class AccessTable extends Table {
 
         if(is_string($aco) and mb_substr($aco,0,1)=='@'){
             $query=$query->join([
-                'table'=>$this->Aco->AcoName->table(),
-                'alias'=>$this->Aco->AcoName->alias(),
-                'conditions'=>[$this->Aco->AcoName->alias().'.id='.$this->alias().'.acl_aco_id']
-            ])->where([$this->Aro->AcoName->alias().'.name'=>mb_substr($aco,1)]);
+                'table'=>$this->AclAco->AclAcoName->table(),
+                'alias'=>$this->AclAco->AclAcoName->alias(),
+                'conditions'=>[$this->AclAco->AclAcoName->alias().'.id='.$this->alias().'.acl_aco_id']
+            ])->where([$this->AclAro->AclAcoName->alias().'.name'=>mb_substr($aco,1)]);
         }
         else {
             $query=$query->where([$this->alias().'.acl_aco_id'=>$aco]);
@@ -68,10 +68,10 @@ class AccessTable extends Table {
 
         if(is_string($alo) and mb_substr($alo,0,1)=='@'){
             $query=$query->join([
-                'table'=>$this->Alo->AloName->table(),
-                'alias'=>$this->Alo->AloName->alias(),
-                'conditions'=>[$this->Alo->AloName->alias().'.id='.$this->alias().'.acl_alo_id']
-            ])->where([$this->Alo->AloName->alias().'.name'=>mb_substr($alo,1)]);
+                'table'=>$this->AclAlo->AclAloName->table(),
+                'alias'=>$this->AclAlo->AclAloName->alias(),
+                'conditions'=>[$this->AclAlo->AclAloName->alias().'.id='.$this->alias().'.acl_alo_id']
+            ])->where([$this->AclAlo->AclAloName->alias().'.name'=>mb_substr($alo,1)]);
         }
         else {
             $query=$query->where([$this->alias().'.acl_alo_id'=>$aro]);
@@ -108,7 +108,7 @@ class AccessTable extends Table {
 
         if(is_string($aro) and mb_substr($aro,0,1)=='@'){
             $query=$query->join([
-                'table'=>$this->Aro->AroName->table(),
+                'table'=>$this->AclAro->AclAroName->table(),
                 'alias'=>$alias.'AroName',
                 'conditions'=>[$alias.'AroName.id='.$alias.'.acl_aro_id']
             ])->where([$alias.'AroName.name'=>mb_substr($aro,1)]);
@@ -119,7 +119,7 @@ class AccessTable extends Table {
 
         if(is_string($alo) and mb_substr($alo,0,1)=='@'){
             $query=$query->join([
-                'table'=>$this->Alo->AloName->table(),
+                'table'=>$this->AclAlo->AclAloName->table(),
                 'alias'=>$alias.'AloName',
                 'conditions'=>[$alias.'AloName.id='.$alias.'.acl_alo_id']
             ])->where([$alias.'AloName.name'=>mb_substr($alo,1)]);

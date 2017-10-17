@@ -7,14 +7,20 @@ use Cake\Event\Event;
 use Cake\Datasource\EntityInterface;
 use ArrayObject;
 
-class AloTable extends Table {
+class AclAloTable extends Table {
 
     public function initialize(array $config){
         $this->table('acl_alo');
         $this->primaryKey('id');
-        $this->hasOne('Base/Acl.AloName',['foreignKey'=>'id']);
-        $this->hasMany('Base/Acl.AloLink');
+        $this->hasOne('Base/Acl.AclAloName',['foreignKey'=>'id']);
+        $this->hasMany('Base/Acl.AclAloLink');
         $this->addBehavior('Timestamp');
+
+        $entityClass=Configure::read('Base.Acl.Alo.entity');
+
+        if(!empty($entityClass)){
+            $this->entityClass($entityClass);
+        }
 
         $associations=Configure::read('Base.Acl.Alo.association');
 
@@ -25,9 +31,9 @@ class AloTable extends Table {
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options){
         if($entity->isNew()){
-            $link=$this->AloLink->newEntity(['acl_alo_id'=>$entity->id,'acl_sub_alo_id'=>$entity->id,'item'=>0]);
+            $link=$this->AclAloLink->newEntity(['acl_alo_id'=>$entity->id,'acl_sub_alo_id'=>$entity->id,'item'=>0]);
 
-            if(!$this->AloLink->save($link)){
+            if(!$this->AclAloLink->save($link)){
             }
         }
     }
