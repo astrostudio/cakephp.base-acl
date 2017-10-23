@@ -3,20 +3,23 @@ namespace Base\Acl\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\Core\Configure;
+use Cake\Utility\Hash;
 
 class AclEntity extends Entity {
 
     protected function _createInfo($key){
         $info='';
-        $property=Configure::read('Base.Acl.'.$key.'.property');
+        $extends=Configure::read('Base.Acl.'.$key);
 
-        if(isset($property) and is_array($property)){
-            foreach($property as $field=>$value){
-                if(isset($this->$field)){
+        foreach($extends as $alias=>$extend){
+            $pp=Hash::get($extend,'property',[]);
+
+            foreach($pp as $name=>$value){
+                if(isset($this->$name)){
                     $info.=!empty($info)?' ':'';
 
                     if(is_callable($value)){
-                        $info.=call_user_func($value,$this->$field);
+                        $info.=call_user_func($value,$this->$name);
                     }
                     else {
                         $info.=$value;

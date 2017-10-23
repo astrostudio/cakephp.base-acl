@@ -7,7 +7,7 @@ use Cake\Event\Event;
 use Cake\Datasource\EntityInterface;
 use ArrayObject;
 
-class AclAroTable extends Table {
+class AclAroTable extends AclTable {
 
     public function initialize(array $config){
         $this->table('acl_aro');
@@ -16,17 +16,7 @@ class AclAroTable extends Table {
         $this->hasMany('Base/Acl.AclAroLink');
         $this->addBehavior('Timestamp');
 
-        $entityClass=Configure::read('Base.Acl.Aro.entity');
-
-        if(!empty($entityClass)){
-            $this->entityClass($entityClass);
-        }
-
-        $associations=Configure::read('Base.Acl.Aro.association');
-
-        if(isset($associations) and is_array($associations)){
-            $this->addAssociations($associations);
-        }
+        $this->_initializeAcl('Aro');
     }
 
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options){
