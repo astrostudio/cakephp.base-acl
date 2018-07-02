@@ -106,7 +106,7 @@ class AclAccessTable extends Table {
             'conditions'=>[$alias.'.acl_aco_id='.$field]
         ]);
 
-        if(is_string($aro) and mb_substr($aro,0,1)=='@'){
+        if(!is_int($aro) and mb_substr($aro,0,1)=='@'){
             $query=$query->join([
                 'table'=>$this->AclAro->AclAroName->table(),
                 'alias'=>$alias.'AroName',
